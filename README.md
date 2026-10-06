@@ -1,8 +1,8 @@
-# Private Edge
+# Blog Network
 
 ## Table of contents
 
-- [Private Edge](#private-edge)
+- [Blog Network](#blog-network)
   - [Table of contents](#table-of-contents)
   - [About this project](#about-this-project)
     - [Summary](#summary)
