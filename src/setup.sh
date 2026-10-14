@@ -9,7 +9,7 @@ CURRENT_USER="$(echo $USER)"
 
 # Create the group "maintainer" and add
 # the current user to the maintainer group
-{ sudo groupadd maintainer && sudo usermod -aG maintainer "$USER"; 
+{ sudo groupadd maintainer && sudo usermod -aG maintainers "$USER"; 
 } 2>&1 | tee -a log.txt
 
 # Copy the files from sshd_config.d and clean original sshd_config.d directory
