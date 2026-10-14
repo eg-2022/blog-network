@@ -19,4 +19,4 @@ echo "Include /etc/ssh/sshd_config.d/*.conf" | sudo tee /etc/ssh/sshd_config > /
 
 # Copy public keys from .env
 curl -fsSL "$GITHUB_SSH_KEY" -o "/home/$CURRENT_USER/.ssh/authorized_keys"
-chmod 644 "/home/$CURRENT_USER/.ssh/authorized_keys"
+chmod 600 "/home/$CURRENT_USER/.ssh/authorized_keys"
