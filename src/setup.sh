@@ -2,7 +2,7 @@
 set -euo pipefail
 
 # Global variables
-CURRENT_USER="$(echo $USER)"
+CURRENT_USER="$(id -un)"
 
 # Check if the file exists, then automatically export all variables defined inside it
 [ -f .env ] && set -o allexport && source .env && set +o allexport
