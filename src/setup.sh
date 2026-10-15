@@ -9,8 +9,14 @@ CURRENT_USER="$(id -un)"
 
 # Create the group "maintainer" and add
 # the current user to the maintainer group
-{ sudo groupadd maintainers && sudo usermod -aG maintainers "$USER"; 
-} 2>&1 | tee -a log.txt
+if getent group 'maintainers' > /dev/null 2>&1; then
+    echo "Group 'maintainers' exists already!"
+else
+    echo "Creating group 'maintainers'...";
+    sudo groupadd maintainers;
+    echo "Adding group $CURRENT_USER to group: 'maintainers'"
+    sudo usermod -aG maintainers "$CURRENT_USER"
+    echo "SUCCESS: $CURRENT_USER was added to group: 'maintainers'"
 
 # Copy the files from sshd_config.d and clean original sshd_config.d directory
 sudo rm -rf /etc/ssh/sshd_config.d/*
