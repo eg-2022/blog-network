@@ -14,9 +14,9 @@ if getent group 'maintainers' > /dev/null 2>&1; then
 else
     echo "Creating group 'maintainers'...";
     sudo groupadd maintainers;
-    echo "Adding group $CURRENT_USER to group: 'maintainers'"
+    echo "Adding user: '$CURRENT_USER' to group: 'maintainers'"
     sudo usermod -aG maintainers "$CURRENT_USER"
-    echo "SUCCESS: $CURRENT_USER was added to group: 'maintainers'"
+    echo "[SUCCESS] User: '$CURRENT_USER' was added to group: 'maintainers'"
 fi
 
 # Copy the files from sshd_config.d and clean original sshd_config.d directory
