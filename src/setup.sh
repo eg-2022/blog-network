@@ -17,6 +17,7 @@ else
     echo "Adding group $CURRENT_USER to group: 'maintainers'"
     sudo usermod -aG maintainers "$CURRENT_USER"
     echo "SUCCESS: $CURRENT_USER was added to group: 'maintainers'"
+fi
 
 # Copy the files from sshd_config.d and clean original sshd_config.d directory
 sudo rm -rf /etc/ssh/sshd_config.d/*
