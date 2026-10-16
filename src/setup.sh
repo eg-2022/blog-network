@@ -1,7 +1,13 @@
 #!/usr/bin/env bash
 set -euo pipefail
 
-# Global variables
+# Colors
+NO_FORMAT="\033[0m"
+F_BOLD="\033[1m"
+C_AQUA="\033[38;5;14m"
+C_LIME="\033[38;5;10m"
+
+# Local variables
 CURRENT_USER="$(id -un)"
 
 # Check if the file exists, then automatically export all variables defined inside it
@@ -9,14 +15,16 @@ CURRENT_USER="$(id -un)"
 
 # Create the group "maintainer" and add
 # the current user to the maintainer group
+echo -e "${F_BOLD}${C_AQUA}STAGE 1: SETTING UP SSH SERVER${NO_FORMAT}"
+
 if getent group 'maintainers' > /dev/null 2>&1; then
-    echo "Group 'maintainers' exists already!"
+    echo -e "${C_AQUA}[INFO]${NO_FORMAT} Group 'maintainers' exists already!"
 else
     echo "Creating group 'maintainers'...";
     sudo groupadd maintainers;
     echo "Adding user: '$CURRENT_USER' to group: 'maintainers'"
     sudo usermod -aG maintainers "$CURRENT_USER"
-    echo "[SUCCESS] User: '$CURRENT_USER' was added to group: 'maintainers'"
+    echo -e "${C_LIME}[SUCCESS]${NO_FORMAT} User: '$CURRENT_USER' was added to group: 'maintainers'"
 fi
 
 # Copy the files from sshd_config.d and clean original sshd_config.d directory
