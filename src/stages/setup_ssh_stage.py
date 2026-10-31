@@ -1,21 +1,29 @@
 import subprocess
 from helpers import status
 
-def run():
-    print(status.stage(1,"Setting up SSH server"))
+MAINTAINERS_GROUP = "maintainers"
 
-    # Task 1: Maintainers group existence
+def create_maintainers_group() -> None:
+    print(status.info("Creating 'maintainers' group..."))
     try:
-        print(status.info("Checking if 'maintainers' group exists..."))
-        group_exists = subprocess.run(["getent", "group", "maintainers"],
+        subprocess.run(["sudo", "usermod", "-aG", MAINTAINERS_GROUP])
+    except PermissionError:
+        print(status.error("Not enough privileges to execute the command"))
+
+def check_group_existence() -> None:
+    print(status.stage(1,"Setting up SSH server"))
+    
+    try:
+        print(status.info(f"Checking if '{MAINTAINERS_GROUP}' group exists..."))
+        group_exists = subprocess.run(["getent", "group", MAINTAINERS_GROUP],
                                 text=True,
                                 shell=False,
                                 capture_output=True)
 
         if group_exists.returncode == 0:
-            print(status.info("Group 'maintainers' exists already."))
+            print(status.info(f"Group '{MAINTAINERS_GROUP}' exists already. Skipping..."))
         elif group_exists.returncode == 2:
-            print(status.info("Creating group 'maintainers'."))
+            create_maintainers_group()
         else:
             print(status.error(f"There was an unexpected error while checking group: {group_exists.stderr}"))
     
@@ -28,5 +36,5 @@ def run():
     except OSError as e:
         print(status.error(f"OS error while executing 'getent: {e}'"))
 
-    finally:
-        print(status.success("Script has finished"))
+def run():
+    check_group_existence()
