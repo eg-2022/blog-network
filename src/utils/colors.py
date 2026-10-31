@@ -5,3 +5,4 @@ class Color(Enum):
     AQUA="aqua"
     LIME="lime"
     GOLD="gold"
+    RED="red"

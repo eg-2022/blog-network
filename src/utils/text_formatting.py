@@ -12,7 +12,8 @@ def format_text(text: str,
         Color.NO_COLOR: "",
         Color.AQUA: "\033[38;5;14m",
         Color.LIME: "\033[38;5;10m",
-        Color.GOLD: "\033[38;5;220m"
+        Color.GOLD: "\033[38;5;220m",
+        Color.RED: "\033[38;5;9m"
     }
     format_codes = {
         Format.NO_FORMAT: "",
