@@ -6,7 +6,7 @@ MAINTAINERS_GROUP = "maintainers"
 def create_maintainers_group() -> None:
     print(status.info("Creating 'maintainers' group..."))
     try:
-        subprocess.run(["sudo", "usermod", "-aG", MAINTAINERS_GROUP])
+        subprocess.run(["sudo", "groupadd", MAINTAINERS_GROUP])
     except PermissionError:
         print(status.error("Not enough privileges to execute the command"))
 
