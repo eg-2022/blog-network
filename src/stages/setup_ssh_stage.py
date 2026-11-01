@@ -1,6 +1,7 @@
 import grp
 import os
 import pwd
+import requests
 import shutil
 import subprocess
 from pathlib import Path
@@ -20,7 +21,7 @@ def get_current_user() -> str:
 
     return username
 
-SCRIPT_DIR = Path(__file__).resolve().parent
+SETUP__SSH_STAGE_D = Path(__file__).resolve().parent / "setup_ssh_stage.d"
 MAINTAINERS_GROUP = "maintainers"
 CURRENT_USER = get_current_user()
 
@@ -127,6 +128,27 @@ def copy_sshd_config_files(source_dir: str, destination_dir: str) -> None:
     except OSError as e:
         print(status.error(f"System error occurred: {e}"))
 
+def download_public_keys_for_ssh():
+    url = os.getenv("GITHUB_SSH_KEY")
+    destination = Path.home() / ".ssh" / "authorized_keys"
+    user_id = pwd.getpwuid(os.getuid()).pw_uid
+    group_id = pwd.getpwuid(os.getgid()).pw_gid
+
+    print(status.info("Downloading public key(s)..."))
+
+    if url:
+        response = requests.get(url, timeout=15)
+        response.raise_for_status()
+
+        destination.parent.mkdir(parents=True, exist_ok=True)
+
+        with destination.open("ab") as file:
+            file.write(response.content)
+
+        destination.chmod(0o600)
+
+        os.chown(destination, user_id, group_id)
+
 def run():
     if not is_running_as_root():
         print(status.error(
@@ -148,5 +170,7 @@ def run():
     else:
         print(status.info(f"'{CURRENT_USER}' already belongs to group: '{MAINTAINERS_GROUP}'. Skipping..."))
 
-    sshd_config_files_dir = SCRIPT_DIR / "setup_ssh_stage.d" / "sshd_config.d"
+    sshd_config_files_dir = SETUP__SSH_STAGE_D / "sshd_config.d"
     copy_sshd_config_files(str(sshd_config_files_dir), "/etc/ssh/sshd_config.d")
+
+    download_public_keys_for_ssh()
