@@ -103,29 +103,28 @@ def check_if_user_belongs_to_group() -> bool:
 
 def copy_sshd_config_files(source_dir: str, destination_dir: str) -> None:
     try:
-        status.info("Copying files to /etc/sshd/sshd_config.d/")
+        print(status.info("Copying files to /etc/sshd/sshd_config.d/"))
         shutil.copytree(
             src=source_dir,
             dst=destination_dir,
             dirs_exist_ok=True
         )
+
     except shutil.Error as e:
-        print(f"Copy completed with errors. Failed items:")
+        print(status.error(f"Copy completed with errors. Failed items:"))
         for source, destination, message in e.args[0]:
             print(f"Source: {source}")
             print(f"Destination: {destination}")
             print(f"Reason: {message}\n")
-    except FileExistsError:
-        print(f"Error: The destination directory '{destination_dir}' already exists.")
 
     except FileNotFoundError:
-        print(f"Error: The source directory '{source_dir}' could not be found.")
+        print(status.error(f"Error: The source directory '{source_dir}' could not be found."))
 
     except PermissionError:
-        print("Error: Access denied. Check your read/write permissions.")
+        print(status.error("Error: Access denied. Check your read/write permissions."))
 
     except OSError as e:
-        print(f"System error occurred: {e}")
+        print(status.error(f"System error occurred: {e}"))
 
 def run():
     if not is_running_as_root():
