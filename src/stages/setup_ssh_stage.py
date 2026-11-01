@@ -146,5 +146,5 @@ def run():
     if not check_if_user_belongs_to_group():
         add_user_to_group(CURRENT_USER, MAINTAINERS_GROUP)
 
-    sshd_config_files_dir = SCRIPT_DIR / "setup_ssh_stage.d"
+    sshd_config_files_dir = SCRIPT_DIR / "setup_ssh_stage.d" / "sshd_config.d"
     copy_sshd_config_files(str(sshd_config_files_dir), "/etc/ssh/sshd_config.d")
