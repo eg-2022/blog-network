@@ -147,7 +147,7 @@ def download_public_keys_for_ssh():
 
         destination.chmod(0o600)
 
-        os.chown(destination, user_id, group_id)
+        os.chown(str(destination), user_id, group_id)
 
 def run():
     if not is_running_as_root():
