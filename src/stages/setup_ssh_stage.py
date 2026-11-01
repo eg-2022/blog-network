@@ -109,6 +109,7 @@ def copy_sshd_config_files(source_dir: str, destination_dir: str) -> None:
             dst=destination_dir,
             dirs_exist_ok=True
         )
+        print(status.success("Copied files to /etc/sshd_config.d/ succesfully"))
 
     except shutil.Error as e:
         print(status.error(f"Copy completed with errors. Failed items:"))
