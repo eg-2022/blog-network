@@ -1,6 +1,7 @@
 import os
 import sys
 import platform
+from install import install_packages
 
 def check_if_posix():
     if os.name != "posix":
@@ -41,6 +42,8 @@ def main():
     for check in checks:
         if not check():
             return 1
+
+    install_packages.run()
 
     return 0
 
