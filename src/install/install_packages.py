@@ -1,19 +1,20 @@
 from pathlib import Path
 import subprocess
 import yaml
+from helpers import status
 
 CURRENT_DIR = Path(__file__).parent
 CONFIG_FILE = CURRENT_DIR / "packages.yaml"
 
 def update_packages():
-    print("[INFO] Updating packages...")
+    print(status.info("Updating packages..."))
     subprocess.run(
         ["sudo", "apt-get", "update"]
     )
     return True
 
 def upgrade_packages():
-    print("[INFO] Upgrading packages")
+    print(status.info("Upgrading packages..."))
     subprocess.run(
         ["sudo", "apt-get", "-y", "upgrade"]
     )
@@ -32,11 +33,19 @@ def load_packages():
 
 def install_all_packages():
 
-    print("[INFO] Installing packages: ")
+    print(status.info("Installing packages..."))
 
-    packages = load_packages()
+    packages = []
+
+    try:
+        packages = load_packages()
+    except yaml.parser.ParserError as e:
+        print(status.error(f"There's an error, on syntax: {e}."))
+        return False
+
+    
     if not packages:
-        print("No packages to install")
+        print(status.info("No packages to install."))
         return False
  
     subprocess.run(
