@@ -1,43 +1,48 @@
 import shutil
 import sys
 from pathlib import Path
+from helpers import status
 
 SOURCE = Path(__file__).parent / "files" / "sshd_config.d"
 DESTINATION = Path("/etc/ssh/sshd_config.d")
 
 def check_source_directory(source: Path):
     # Check if /etc/ssh/sshd_config.d exists
-
-    print(source)
-
     if not Path.exists(source):
-        print("[ERROR] Source directory not found. Installation could have gone wrong.")
+        print(status.error("Source directory not found. Installation could have gone wrong."))
         sys.exit(1)    
         return False
     
     return True
 
 def check_destination_directory(destination: Path):
-    print(destination)
-    # Check if /etc/ssh/ exists
+    # Check if /etc/ssh/sshd_config.d exists
     if not Path.exists(destination):
-        print("[ERROR] Destination directory not found. Installation could have gone wrong.")
-        sys.exit(1)
+        print(status.error("Destination directory not found. Installation could have gone wrong."))
+        sys.exit(1)    
         return False
-
+    
     return True
 
 def copy_directory_to_source(source: str, destination: str):
     # Copy files from SOURCE to DESTINATION
     try:
+        print(status.info("Copying files to /etc/ssh/sshd_config.d/"))
         shutil.copytree(src=source,
                 dst=destination,
                 dirs_exist_ok=True)
-    except FileExistsError as e:
-        print(f"[ERROR] {e}")
+        print(status.success("Files were copied successfully"))
+        return True
+    except FileNotFoundError as e:
+        print(status.error(f"Directory couldn't be found: {e}"))
         return False
-
-    return True
+    except NotADirectoryError:
+        print(status.error(f"File detected. Not a directory."))
+        return False
+    except PermissionError as e:
+        print(status.error(f"There's a problem with system permissions: {e}"))
+    except shutil.Error as e:
+        print(status.error("An error has happened during copying process."))
 
 def run():
     checks = (
