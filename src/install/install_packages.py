@@ -10,12 +10,14 @@ def update_packages():
     subprocess.run(
         ["sudo", "apt-get", "update"]
     )
+    return True
 
 def upgrade_packages():
     print("[INFO] Upgrading packages")
     subprocess.run(
         ["sudo", "apt-get", "-y", "upgrade"]
     )
+    return True
 
 def load_packages():
     with CONFIG_FILE.open("r", encoding="utf-8") as file:
@@ -42,10 +44,19 @@ def install_all_packages():
         check=True
     )
 
-def run():
-    update_packages()
-    upgrade_packages()
-    install_all_packages()
+    return True
 
-if __name__ == "__main__":
-    run()
+def run():
+    checks = (
+        lambda: update_packages(),
+        lambda: upgrade_packages(),
+    )
+
+    for check in checks:
+        if not check():
+            return False
+
+    if not install_all_packages():
+        return False
+
+    return True
