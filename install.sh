@@ -5,8 +5,8 @@ set -e
 echo "=== 1/6 --- Updating packages... ==="
 sudo apt-get update
 
-echo "=== 2/6 --- Installing curl... ==="
-sudo apt-get install -y curl
+echo "=== 2/6 --- Installing basic tools... ==="
+sudo apt-get install -y curl git
 
 echo "=== 3/6 --- Installing uv... ==="
 curl -LsSf https://astral.sh/uv/install.sh | sh
