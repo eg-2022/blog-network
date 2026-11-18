@@ -3,5 +3,6 @@ name = "blog-network"
 version = "0.1.0"
 requires-python = ">=3.14"
 dependencies = [
+    "pytest>=9.2.0",
     "pyyaml>=6.0.3",
 ]
