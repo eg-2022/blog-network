@@ -20,7 +20,14 @@ def load_packages():
 def check_all_packages():
     print("[INFO] Checking packages: ")
 
-    packages = load_packages()
+    packages = []
+
+    try:
+        packages = load_packages()
+    except yaml.parser.ParserError as e:
+        print(f"[ERROR] There's an error, on syntax: {e}.")
+        return False
+
     if not packages:
         print("No packages to check")
         return False
@@ -46,8 +53,4 @@ def check_all_packages():
     return True
 
 def run():
-    if not check_all_packages():
-        sys.exit(1)
-    
-if __name__ == "__main__":
-    run()
+   return check_all_packages()
