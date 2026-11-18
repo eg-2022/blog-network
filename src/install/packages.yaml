@@ -1,14 +1,6 @@
 packages:
-  base:
-    - curl
-    - wget
-    - git
-    - unzip
-    - ca-certificates
-    - nano
-    - htop
-
   infra:
+    - ca-certificates
     - openssh-server
     - wireguard
     - fail2ban
