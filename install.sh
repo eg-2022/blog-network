@@ -20,7 +20,7 @@ echo "=== 4/6 --- Syncing dependencies ==="
 uv sync
 
 echo "=== 5/6 --- Executing installation ==="
-python src/main.py
+uv run src/main.py
 
 echo "=== 6/6 --- Removing uv ==="
 uv_dir="$HOME/.local/bin/uv"
