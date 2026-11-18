@@ -8,6 +8,7 @@ def main():
         preinstall.check_if_debian_or_ubuntu.run,
         preinstall.check_if_root.run,
 
+        install.setup_groups_and_users.run,
         install.install_packages.run,
         install.check_installed_packages.run,
         install.install_sshd_config_files.run,
