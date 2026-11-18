@@ -2,6 +2,7 @@ import sys
 import subprocess
 from pathlib import Path
 import yaml
+from helpers import status
 
 CURRENT_DIR = Path(__file__).parent
 CONFIG_FILE = CURRENT_DIR / "packages.yaml"
@@ -18,18 +19,18 @@ def load_packages():
     return list(dict.fromkeys(packages))
 
 def check_all_packages():
-    print("[INFO] Checking packages: ")
+    print(status.info("Checking packages..."))
 
     packages = []
 
     try:
         packages = load_packages()
     except yaml.parser.ParserError as e:
-        print(f"[ERROR] There's an error, on syntax: {e}.")
+        print(status.error(f"There's an error, on syntax: {e}."))
         return False
 
     if not packages:
-        print("No packages to check")
+        print(status.error("No packages to check"))
         return False
 
     missing_packages = []
@@ -46,10 +47,10 @@ def check_all_packages():
 
     if missing_packages:
         for package in missing_packages:
-            print(f"[ERROR] Package: {package} wasn't found.")
+            print(status.error(f"Package: {package} wasn't found."))
         return False
 
-    print("[SUCCESS] Packages were installed successfully")
+    print(status.success("Packages were installed successfully"))
     return True
 
 def run():
