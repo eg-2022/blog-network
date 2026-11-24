@@ -4,9 +4,9 @@ import install
 
 def main():
     checks = (
-        preinstall.check_if_posix.run,
-        preinstall.check_if_debian_or_ubuntu.run,
-        preinstall.check_if_root.run,
+        preinstall.posix.run,
+        preinstall.debian_or_ubuntu.run,
+        preinstall.root.run,
 
         install.setup_groups_and_users.run,
         install.install_packages.run,
