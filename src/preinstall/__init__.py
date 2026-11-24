@@ -13,6 +13,6 @@ __all__ = [
     "check_if_debian_or_ubuntu",
     "check_if_root",
     "posix",
-    "debian",
+    "debian_or_ubuntu",
     "root",
 ]
