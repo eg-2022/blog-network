@@ -1,6 +1,6 @@
 from . import (
     check_if_posix as posix,
-    check_if_debian_or_ubuntu as debian,
+    check_if_debian_or_ubuntu as debian_or_ubuntu,
     check_if_root as root,
 )
 
